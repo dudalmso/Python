@@ -1,0 +1,87 @@
+import cx_Oracle
+import pandas as pd
+import tkinter as tk
+from tkinter import messagebox
+from tkinter import ttk
+
+# Definindo o começo do projeto
+processo_em_andamento = False
+
+
+def gerando_tabela():
+    # Definindo andamento do projeto
+    global processo_em_andamento
+
+    processo_em_andamento = True
+
+    # Atualizando a mensagem no gráfico para "Aguarde..."
+    mensagem_var.set("Aguarde...")
+
+    # Atualizando a barra de progresso
+    progresso_var.set(10)
+    barra_progresso["value"] = 10
+    janela.update()
+
+    # Fazendo conexão
+    dsn_tns = 
+    conn =
+
+    # Atuaizando barra de progresso
+    progresso_var.set(30)
+    barra_progresso["value"] = 30
+    janela.update()
+
+    # Realizando consulta no banco de dados
+    sql =
+    """
+    # Atualizando barra de progresso
+    progresso_var.set(50)
+    barra_progresso["value"] = 50
+    janela.update()
+
+    # Armazenando resultado num DataFrame
+    df = pd.read_sql(sql, conn)
+
+    # Fechando conexão
+    conn.close()
+
+    # Atualizando barra de progresso
+    progresso_var.set(75)
+    barra_progresso["value"] = 75
+    janela.update()
+
+    # Salvando resultado
+    df.to_excel('tabela_boletos.xlsx', index=False)
+
+    # Definindo fim do projeto
+    processo_em_andamento = False
+
+    mensagem_var.set("Tabela gerada!")
+
+    # Atualizando barra de progresso
+    progresso_var.set(100)
+    barra_progresso["value"] = 100
+
+    janela.update()
+
+   
+# Configuração da janela
+janela = tk.Tk()
+janela.geometry('300x200')
+janela.title('Acionamento')
+
+# Criando barra de progresso
+progresso_var = tk.IntVar()
+barra_progresso = ttk.Progressbar(janela, variable=progresso_var, maximum=100)
+barra_progresso.pack(pady=20)
+
+# Criando botao
+botao_gerar = tk.Button(janela, text='Gerar tabela', command=gerando_tabela)
+botao_gerar.pack(pady=20)
+
+# Criando mensagem 'Tabela gerada!'
+mensagem_var = tk.StringVar()
+label_mensagem = tk.Label(janela, textvariable=mensagem_var)
+label_mensagem.pack(pady=10)
+
+janela.mainloop()
