@@ -1,0 +1,26 @@
+import PySimpleGUI as sg
+
+def janela_inicial():
+    sg.theme('BluePurple')
+    linha = [
+        [sg.Checkbox(''), sg.Input('')]
+    ]
+    layout = [
+        [sg.Frame('Tarefas', layout=linha, key='container')],
+        [sg.Button('Nova Tarefa'), sg.Button('Resetar Janela')]
+    ]
+
+    return sg.Window('Para a semana', layout=layout, finalize=True)
+
+janela = janela_inicial()
+
+while True:
+    event, values = janela.read()
+    if event == sg.WIN_CLOSED:
+        break
+    elif event == 'Nova Tarefa':
+        janela.extend_layout(janela['container'], [[sg.Checkbox(''), sg.Input('')]])
+
+    elif event == 'Resetar Janela':
+        janela.close()
+        janela = janela_inicial()
