@@ -1,0 +1,33 @@
+import win32com.client
+import pandas as pd
+ 
+ 
+
+# Definindo data frame
+df = pd.read_excel('.xlsx')
+
+
+# Abra o Microsoft Outlook
+outlook = win32com.client.Dispatch("Outlook.Application")
+namespace = outlook.GetNamespace("MAPI")
+
+# Estrutura de repetição e preenchimento de campos
+#Iterando nas colunas da planilha para acionamento
+for index, row in df.iterrows():
+   
+    email = outlook.CreateItem(0)
+
+    email.To = (row['NOME DA COLUNA ONDE FICA OS EMAILS A SEREM ACIONADOS'])
+    email.Subject = (row['COLUNA DO ASSUNTO']) 
+
+    # -*- coding: utf-8 -*-
+
+    corpo = f"""
+        MENSAGEM A SER ESCRITA"""
+
+      ## PODE SER UMA MENSAGEM PADRAO OU VOCE PODE DEFINIR UMA COLUNA NO EXCEL COM AS MENSAGENS VARIADAS E CHAMA-LAATRVES DO ROW##
+
+    email.Body = corpo
+ 
+    email.Send()
+    print(email enviado)
