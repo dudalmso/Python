@@ -1,0 +1,71 @@
+import tkinter as tk, messagebox
+
+agenda = {}
+
+
+
+def adicionar_compromisso():
+    data = data.get()
+    hora = hora.get()
+    descricao = descricao.get()
+
+    if data and hora and descricao:
+        if data not in agenda:
+            agenda[data] = []
+
+        agenda[data].append({"hora": hora, "descricao": descricao})
+        messagebox.showinfo("Sucesso", "Compromisso adicionado com sucesso!")
+        limpar_campos()
+    else:
+        messagebox.showerror("Erro", "Por favor, preencha todos os campos.")
+
+def visualizar_compromissos():
+    visualizacao = tk.Toplevel(root)
+    visualizacao.title("Visualizar Compromissos")
+
+    scrollbar = tk.Scrollbar(visualizacao)
+    scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
+
+    lista_compromissos = tk.Text(visualizacao, yscrollcommand=scrollbar.set)
+    lista_compromissos.pack(fill=tk.BOTH)
+
+    for data, compromissos in agenda.items():
+        lista_compromissos.insert(tk.END, f"Compromissos para {data}:\n")
+        for compromisso in compromissos:
+            lista_compromissos.insert(tk.END, f"\t{compromisso['hora']} - {compromisso['descricao']}\n")
+    
+    scrollbar.config(command=lista_compromissos.yview)
+
+def limpar_campos():
+    data.delete(0, tk.END)
+    hora.delete(0, tk.END)
+    janela_descricao.delete(0, tk.END)
+
+# Configurações da janela
+root = tk.Tk()
+root.title("Minha Agenda")
+
+janela_data = tk.Label(root, text="Data:")
+janela_data.grid(row=0, column=0, padx=10, pady=10, sticky="e")
+data = tk.Entry(root)
+data.grid(row=0, column=1, padx=10, pady=5)
+
+janela_hora = tk.Label(root, text="Hora:")
+janela_hora.grid(row=1, column=0, padx=10, pady=10, sticky="e")
+hora = tk.Entry(root)
+hora.grid(row=1, column=1, padx=10, pady=5)
+
+janela_descricao = tk.Label(root, text="Descrição:")
+janela_descricao.grid(row=2, column=0, padx=10, pady=10, sticky="e")
+descricao = tk.Entry(root)
+descricao.grid(row=2, column=1, padx=10, pady=5)
+
+# Botao adicionar compromisso
+btn_adicionar = tk.Button(root, text="Adicionar Compromisso", command=adicionar_compromisso)
+btn_adicionar.grid(row=3, column=0, columnspan=2, padx=5, pady=5)
+
+# Botao visualizar comrpromisso
+btn_visualizar = tk.Button(root, text="Visualizar Compromissos", command=visualizar_compromissos)
+btn_visualizar.grid(row=4, column=0, columnspan=2, padx=5, pady=5)
+
+root.mainloop()
