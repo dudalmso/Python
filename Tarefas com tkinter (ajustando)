@@ -1,0 +1,52 @@
+import tkinter as tk
+
+tarefas = {}
+
+def adicionar_tarefa():
+    novo_checkbox = tk.Checkbutton(frame_tarefas)
+    novo_checkbox.grid(row=len(tarefas) + 1, column=0, padx=5, pady=5)
+    novo_entry = tk.Entry(frame_tarefas)
+    novo_entry.grid(row=len(tarefas) + 1, column=1, padx=5, pady=5)
+    tarefas.append((novo_checkbox, novo_entry))
+
+def visualizar_tarefas():
+    visualizacao = tk.Toplevel(root)
+    visualizacao.title("Visualizar tarefas")
+
+    scrollbar = tk.Scrollbar(visualizacao)
+    scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
+
+    lista_tarefas = tk.Text(visualizacao, yscrollcommand=scrollbar.set)
+    lista_tarefas.pack(fill=tk.BOTH)
+
+    for tarefas in tarefas.items():
+        lista_tarefas.insert(tk.END, f"Tarefas: \n {tarefas}")
+        for tarefa in tarefas:
+            lista_tarefas.insert(tk.END, f"{tarefas}\n")
+        
+    scrollbar.config(command=lista_tarefas.yview)
+
+def apagar_tarefas():
+    for checkbox, entry in tarefas:
+        checkbox.destroy()
+        entry.destroy()
+    tarefas.clear()
+
+root = tk.Tk()
+root.title("Para a semana")
+
+frame_tarefas = tk.Frame(root)
+frame_tarefas.pack(padx=20, pady=20)
+
+tarefas = []
+
+btn_nova_tarefa = tk.Button(root, text="Nova Tarefa", command=adicionar_tarefa)
+btn_nova_tarefa.pack(side=tk.LEFT, padx=5, pady=5)
+
+btn_visualizar_tarefas = tk.Button(root, text="Visualizar Tarefas", command=visualizar_tarefas)
+btn_visualizar_tarefas.pack(side=tk.LEFT, padx=5, pady=5)
+
+btn_apagar_tarefas = tk.Button(root, text="Apagar Tarefas", command=apagar_tarefas)
+btn_apagar_tarefas.pack(side=tk.RIGHT, padx=5, pady=5)
+
+root.mainloop()
